@@ -12,8 +12,8 @@ def read_table(url):
 
 
 APPNAME = "BL Event Viewer"
-STATIC_FOLDER = 'example'
-TABLE_FILE = "example/fakecatalog.csv"
+STATIC_FOLDER = 'sband2019'
+TABLE_FILE = "sband2019/sband2019_events.csv"
 
 table = read_table(TABLE_FILE)
 pager = Pager(len(table))
