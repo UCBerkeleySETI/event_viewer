@@ -11,7 +11,7 @@ def read_table(url):
         return [row for row in csv.DictReader(f.readlines())]
 
 
-APPNAME = "PrettyGalaxies"
+APPNAME = "BL Event Viewer"
 STATIC_FOLDER = 'example'
 TABLE_FILE = "example/fakecatalog.csv"
 
