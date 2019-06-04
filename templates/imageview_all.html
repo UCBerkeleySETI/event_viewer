@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ data.Source}} {% endblock %}
+
+{% block content %}
+
+<div class="container" style="width:100%;">
+
+  <nav class="navbar">
+    <div class="navbar-header">
+      
+    <span class="navbar-brand">{{ config.APPNAME }}</span>
+     <ul class="nav navbar-nav">
+      <li><a href="/">Home</a> </li>
+      <li><a href="#" style="color: #333333;">Sort by:</a> </li>
+      <li><a href="/viewall/freqs/{{srcid}}">Frequency</a></li>
+      <li><a href="/viewall/driftrate/{{srcid}}">Drift Rate</a></li>
+      <li><a href="/viewall/nevents/{{srcid}}">No. Events</a></li>
+      <li><a href="/viewall/src/{{srcid}}">Source Name</a></li>
+    </ul>
+
+</div>
+   </nav>
+    <h2> Viewing: {{srcid.upper()}} </h2>
+    {% for ii,  pngfile in data %}
+    {% if loop.index %4 ==0 %} 
+    <div class="row">
+    {% endif %}
+    <div class="col-md-3">
+      <a href="/{{ii}}">
+        <img src="{{ url_for('static', filename='images/'+pngfile) }}" class="img-responsive center-block" alt="{{pngfile}}">
+      </a>
+    </div>
+    {% if loop.index % 4 == 0 or data|length == loop.index-1 %}
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock %}

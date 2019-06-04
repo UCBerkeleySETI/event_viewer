@@ -3,6 +3,32 @@
 {% block title %}{{ data.Source}} {% endblock %}
 
 {% block content %}
+
+<script type=text/javascript>
+        $(function() {
+          $('a#hitsinoff').bind('click', function() {
+            $.getJSON('/hitsinoff/{{data.ID}}', function(data) {});
+            $('#HitCategory').text('Hits in off');
+            return false;
+          });
+          $('a#followup').bind('click', function() {
+            $.getJSON('/followup/{{data.ID}}', function(data) {});
+            $('#HitCategory').text('Requires follow up');
+            return false;
+          });
+          $('a#plottingissue').bind('click', function() {
+            $.getJSON('/plottingissue/{{data.ID}}', function(data) {});
+            $('#HitCategory').text('Plotting issue');
+            return false;
+          });
+          $('a#interestingnotet').bind('click', function() {
+            $.getJSON('/interestingnotet/{{data.ID}}', function(data) {});
+            $('#HitCategory').text('Interesting but not ET');
+            return false;
+          });
+        });
+</script>
+
 <div class="container" style="width:100%;">
 
   <nav class="navbar">
@@ -17,7 +43,7 @@
       <button type="Go" class="btn btn-default">Go</button>
     </form>
     <ul class="nav navbar-nav">
-      <li><a href="/">home</a></li>
+      <li><a href="/viewall/freqs">View all</a></li>
       <li><a href="/{{pager.prev}}">&larr;</a> </li>
       <li><a href="/{{pager.next}}">&rarr;</a> </li>
       {% include 'links.html' %}
@@ -26,11 +52,17 @@
 
   <div class="row">
     <div class="col-md-6">
-      <img src="{{ url_for('static', filename='images/'+data.Source+'_'+data.ID+'.png') }}" class="img-responsive center-block" alt="">
+      <img src="{{ url_for('static', filename='images/'+data.PngFile) }}" class="img-responsive center-block" alt="">
     </div>
     <div class="col-md-6">
-      <h2>{{data.Source}}</h2>
+      <h2><a href="/viewall/freqs/{{data.Source}}">{{data.Source}}</a></h2>
       {% include 'table.html' %}
+        <form>
+            <a href=# id=hitsinoff><button class='btn btn-default'>Hits in off</button></a>
+            <a href=# id=followup><button class='btn btn-default'>Requires follow up</button></a>
+            <a href=# id=plottingissue><button class='btn btn-default'>Plotting issue</button></a>
+            <a href=# id=interestingnotet><button class='btn btn-default'>Interesting but not ET</button></a>
+        </form>
     </div>
   </div>
 

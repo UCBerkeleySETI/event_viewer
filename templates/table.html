@@ -1,9 +1,9 @@
 <table class="table table-striped">
   <tbody>
-    {% for key in ["ID","Source","FileID","Nevent","DriftRateMax","DriftBW","FreqMid","Freqs","DriftRates"] %}
+    {% for key in ["ID","Source","FileID","Nevent","DriftRateMax","DriftBW","FreqMid","Freqs","DriftRates","SNR","HitCategory"] %}
     <tr>
       <td><b>{{ key|e|capitalize }}</b></td>
-      <td>{{ data[key]|e }}</td>
+      <td><span id={{key}}>{{ data[key]|e }}</span></td>
     </tr>
     {% endfor %}
   </tbody>
