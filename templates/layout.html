@@ -8,6 +8,7 @@
     {% endblock %}
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href={{ url_for('static', filename='footer.css') }}
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
@@ -18,7 +19,17 @@
 </head>
 
 <body>
-    <div id="content">{% block content %}{% endblock %}</div>
+  <main role="main" class="container">
+     <div id="content">{% block content %}{% endblock %}</div>
+  </main>
+  <footer class="footer">
+   <div class="container text-center">
+        <span class="text-muted text-center">
+          <a href='/l/viewall/freqs/all'>L events</a> | <a href='/l/viewall/freqs/candidates'>L candidates</a> | 
+          <a href='/s/viewall/freqs/all'>S events</a> | <a href='/s/viewall/freqs/candidates'>S candidates</a>
+        </span>
+    </div>
+  </footer>
 </body>
 
 </html>

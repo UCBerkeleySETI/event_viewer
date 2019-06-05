@@ -11,12 +11,12 @@
       
     <span class="navbar-brand">{{ config.APPNAME }}</span>
      <ul class="nav navbar-nav">
-      <li><a href="/">Home</a> </li>
+      <li><a href="/{{band}}">Home</a> </li>
       <li><a href="#" style="color: #333333;">Sort by:</a> </li>
-      <li><a href="/viewall/freqs/{{srcid}}">Frequency</a></li>
-      <li><a href="/viewall/driftrate/{{srcid}}">Drift Rate</a></li>
-      <li><a href="/viewall/nevents/{{srcid}}">No. Events</a></li>
-      <li><a href="/viewall/src/{{srcid}}">Source Name</a></li>
+      <li><a href="/{{band}}/viewall/freqs/{{srcid}}">Frequency</a></li>
+      <li><a href="/{{band}}/viewall/driftrate/{{srcid}}">Drift Rate</a></li>
+      <li><a href="/{{band}}/viewall/nevents/{{srcid}}">No. Events</a></li>
+      <li><a href="/{{band}}/viewall/src/{{srcid}}">Source Name</a></li>
     </ul>
 
 </div>
@@ -27,8 +27,8 @@
     <div class="row">
     {% endif %}
     <div class="col-md-3">
-      <a href="/{{ii}}">
-        <img src="{{ url_for('static', filename='images/'+pngfile) }}" class="img-responsive center-block" alt="{{pngfile}}">
+      <a href="/{{band}}/{{ii}}">
+        <img src="{{ url_for('static', filename=band+'band2019/images/'+pngfile) }}" class="img-responsive center-block" alt="{{pngfile}}">
       </a>
     </div>
     {% if loop.index % 4 == 0 or data|length == loop.index-1 %}

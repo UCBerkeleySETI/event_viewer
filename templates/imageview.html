@@ -6,23 +6,55 @@
 
 <script type=text/javascript>
         $(function() {
+
+        $(document).keypress(function(e) {
+            // H = 104, R = 114, P = 112, I = 105
+            if(e.which == 104) {
+                $('#HitCategory').text('Hits in off');
+                $.getJSON('/{{band}}/hitsinoff/{{data.ID}}', function(data) {})
+                    .always(function() { window.location.href = "/{{band}}/{{pager.next}}"; });
+            }
+            if(e.which == 105) {
+                $('#HitCategory').text('Interesting but not ET');
+                $.getJSON('/{{band}}/interestingnotet/{{data.ID}}', function(data) {})
+                    .always(function() { window.location.href = "/{{band}}/{{pager.next}}"; });
+            }
+            if(e.which == 112) {
+                $('#HitCategory').text('Plotting issue');
+                $.getJSON('/{{band}}/plottingissue/{{data.ID}}', function(data) {})
+                    .always(function() { window.location.href = "/{{band}}/{{pager.next}}"; });
+            }
+           if(e.which == 114) {
+                $('#HitCategory').text('Requires follow up');
+                $.getJSON('/{{band}}/followup/{{data.ID}}', function(data) {})
+                    .always(function() { window.location.href = "/{{band}}/{{pager.next}}"; });
+            }
+            if(e.which == 122) {
+                window.location.href = "/{{band}}/{{pager.prev}}"
+            }
+            if(e.which == 120) {
+                window.location.href = "/{{band}}/{{pager.next}}"
+            }
+        });
+
+
           $('a#hitsinoff').bind('click', function() {
-            $.getJSON('/hitsinoff/{{data.ID}}', function(data) {});
+            $.getJSON('/{{band}}/hitsinoff/{{data.ID}}', function(data) {});
             $('#HitCategory').text('Hits in off');
             return false;
           });
           $('a#followup').bind('click', function() {
-            $.getJSON('/followup/{{data.ID}}', function(data) {});
+            $.getJSON('/{{band}}/followup/{{data.ID}}', function(data) {});
             $('#HitCategory').text('Requires follow up');
             return false;
           });
           $('a#plottingissue').bind('click', function() {
-            $.getJSON('/plottingissue/{{data.ID}}', function(data) {});
+            $.getJSON('/{{band}}/plottingissue/{{data.ID}}', function(data) {});
             $('#HitCategory').text('Plotting issue');
             return false;
           });
           $('a#interestingnotet').bind('click', function() {
-            $.getJSON('/interestingnotet/{{data.ID}}', function(data) {});
+            $.getJSON('/{{band}}/interestingnotet/{{data.ID}}', function(data) {});
             $('#HitCategory').text('Interesting but not ET');
             return false;
           });
@@ -43,19 +75,19 @@
       <button type="Go" class="btn btn-default">Go</button>
     </form>
     <ul class="nav navbar-nav">
-      <li><a href="/viewall/freqs">View all</a></li>
-      <li><a href="/{{pager.prev}}">&larr;</a> </li>
-      <li><a href="/{{pager.next}}">&rarr;</a> </li>
+      <li><a href="/{{band}}/viewall/freqs">View all</a></li>
+      <li><a href="/{{band}}/{{pager.prev}}">&larr;</a> </li>
+      <li><a href="/{{band}}/{{pager.next}}">&rarr;</a> </li>
       {% include 'links.html' %}
     </ul>
   </nav>
 
   <div class="row">
     <div class="col-md-6">
-      <img src="{{ url_for('static', filename='images/'+data.PngFile) }}" class="img-responsive center-block" alt="">
+      <img src="{{ url_for('static', filename=band+'band2019/images/'+data.PngFile) }}" class="img-responsive center-block" alt="">
     </div>
     <div class="col-md-6">
-      <h2><a href="/viewall/freqs/{{data.Source}}">{{data.Source}}</a></h2>
+      <h2><a href="/{{band}}/viewall/freqs/{{data.Source}}">{{data.Source}}</a></h2>
       {% include 'table.html' %}
         <form>
             <a href=# id=hitsinoff><button class='btn btn-default'>Hits in off</button></a>
