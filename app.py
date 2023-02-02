@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import requests
 from pager import Pager
 import pandas as pd
+import numpy as np
 import h5py
 
 APPNAME = "BL Event Viewer"
@@ -15,7 +16,11 @@ def read_table(url):
     """Return a list of dict"""
     with h5py.File(url) as h5:
         dd = dict([(col, h5[col][:]) for col in h5.keys()])
+    for k, dset in dd.items():
+        if isinstance(dset[0], bytes):
+            dd[k] = np.char.decode(dset, 'ascii')
     df= pd.DataFrame.from_dict(dd)
+    
     df['ID'] = df['ID'].astype(str)
     return df
 
@@ -55,7 +60,7 @@ def _load_hits(band):
         h5 = h5py.File(S_TABLE_FILE)
     elif band == 'P':
         h5 = h5py.File(P_TABLE_FILE)
-    hc = h5['HitCategory'][:]
+    hc = np.char.decode(h5['HitCategory'][:], 'ascii')
     h5.close()
     return hc
 
@@ -69,7 +74,7 @@ def _update_hits(band, idx, val):
     elif band == 'P':
         h5 = h5py.File(P_TABLE_FILE)
     h5['HitCategory'][idx] = val
-    print "Updating db: %s" % val
+    print("Updating db: %s" % val)
     h5.close()
 
 def sort_table(stbl, sortidx):
@@ -96,6 +101,7 @@ def indexS():
 @app.route('/<string:band>/<int:ind>/')
 def image_view(band='L', ind=None):
     table, pager = get_db(band)
+    print(type(band), type(ind))
     if ind >= pager.count:
         return render_template("404.html"), 404
     else:
@@ -137,7 +143,7 @@ def image_view_fstart_fstop(band='L', sortidx=None, srcid=None, fstart=None, fst
         'imageview_all.html',
         srcid=srcid,
         band=band,
-        data=zip(stbl.index, stbl['PngFile'])
+        data=list(zip(stbl.index, stbl['PngFile']))
         )
 
 @app.route('/<string:band>/viewall/<string:sortidx>/<string:srcid>')
@@ -155,7 +161,7 @@ def image_view_all(band, sortidx=None, srcid=None):
         'imageview_all.html',
         srcid=srcid,
         band=band,
-        data=zip(stbl.index, stbl['PngFile'])
+        data=list(zip(stbl.index, stbl['PngFile']))
         )
 
 @app.route('/goto', methods=['POST', 'GET'])    
@@ -183,4 +189,4 @@ def dbupdate_interesting_not_et(band, ind):
     return "Nothing"
 
 if __name__ == '__main__':
-   app.run(debug=True, host='0.0.0.0')
+   app.run(debug=True, host='0.0.0.0', port=8001)
