@@ -101,7 +101,6 @@ def indexS():
 @app.route('/<string:band>/<int:ind>/')
 def image_view(band='L', ind=None):
     table, pager = get_db(band)
-    print(type(band), type(ind))
     if ind >= pager.count:
         return render_template("404.html"), 404
     else:
