@@ -1,41 +1,27 @@
-# ImageViewer
+# EventViewer
 
-Do you have a bunch of images with meta information that you would like to go through (or share)?
-
-This is a web-based image viewer for that.
+This is a web-based image viewer for quickly categorizing candidate signals into real or RFI. 
 
 It is a tiny [flask](http://flask.pocoo.org/) app, built with [bootstrap](http://getbootstrap.com/),
-which will display images and their meta information from a table with pagination. It could be a starting point for a more complex application.
-
-**WARNING:** This app was built to run locally for my own convenience and
-to be shared with a small number of collaborators. In `app.py`, the entire table is
-loaded into a global variable `table`. This can be problematic if the table is large,
-and the app receives a lot of traffic, as it will load the data for every process.
-You'll want to setup a proper database. See
-
-- [this stackoverflow question](http://stackoverflow.com/questions/28141454/flask-using-a-global-variable-to-load-data-files-into-memory)
-- flask documentation on databases
+which will display images and their meta information from a table with pagination. It is based on [ImageViewer](https://github.com/smoh/imageviewer) by @smoh.
 
 
 ## Test out
 
 Do
 ```sh
-git clone https://github.com/smoh/imageviewer
-cd imageviewer
+git clone https://github.com/ucberkeleyseti/event_viewer_
+cd event_viewer
 conda env create    # will create viewer conda environment specified in environment.yml
 source activate viewer
 python app.py
 ```
-and point your browser to `localhost:5000`.
-This will show images inside `example/images/` directory with the related information in `fakecatalog.csv`
-like this:
+and point your browser to `localhost:8001`.
 
-![](screenshot.png)
+This will show images and their accompanying metadata
+
+![](screenshot.jpg)
 
 Configure static file paths in `app.py` and modify templates in `templates/`
 according to your needs. [Flask](http://flask.pocoo.org/) uses the [jinja](http://jinja.pocoo.org/) template engine.
 
-
-## To do (maybe?)
-- example for updating comments
