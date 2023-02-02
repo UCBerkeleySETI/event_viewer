@@ -7,8 +7,9 @@ import h5py
 
 APPNAME = "BL Event Viewer"
 STATIC_FOLDER = 'static'
-L_TABLE_FILE    = 'static/lband2019/lband2019_events.h5'
-S_TABLE_FILE = 'static/sband2019/sband2019_events.h5'
+L_TABLE_FILE  = 'static/lband2019/lband2019_events.h5'
+S_TABLE_FILE  = 'static/sband2019/sband2019_events.h5'
+P_TABLE_FILE  = 'static/pband2019/pband2019_events.h5'
 
 def read_table(url):
     """Return a list of dict"""
@@ -25,8 +26,11 @@ app.config.update(
 
 l_table = read_table(L_TABLE_FILE)
 s_table = read_table(S_TABLE_FILE)
+p_table = read_table(P_TABLE_FILE)
 l_pager = Pager(len(l_table))
 s_pager = Pager(len(s_table))
+p_pager = Pager(len(p_table))
+
 
 def get_db(band):
     band = band.upper().strip()
@@ -37,6 +41,10 @@ def get_db(band):
     elif band == 'S':
         s_table['HitCategory'] = hc
         return s_table, s_pager
+    elif band == 'P':
+        p_table['HitCategory'] = hc
+        return p_table, p_pager
+
 
 def _load_hits(band):
     """ Reload hit category -- only call from get_db """
@@ -45,6 +53,8 @@ def _load_hits(band):
         h5 = h5py.File(L_TABLE_FILE)
     elif band == 'S':
         h5 = h5py.File(S_TABLE_FILE)
+    elif band == 'P':
+        h5 = h5py.File(P_TABLE_FILE)
     hc = h5['HitCategory'][:]
     h5.close()
     return hc
@@ -56,6 +66,8 @@ def _update_hits(band, idx, val):
         h5 = h5py.File(L_TABLE_FILE)
     elif band == 'S':
         h5 = h5py.File(S_TABLE_FILE)
+    elif band == 'P':
+        h5 = h5py.File(P_TABLE_FILE)
     h5['HitCategory'][idx] = val
     print "Updating db: %s" % val
     h5.close()
@@ -148,7 +160,7 @@ def image_view_all(band, sortidx=None, srcid=None):
 
 @app.route('/goto', methods=['POST', 'GET'])    
 def goto():
-    return redirect('/' + request.form['index'])
+    return redirect('/' + request.form['band'] + '/' + request.form['index'])
 
 @app.route('/<string:band>/hitsinoff/<int:ind>')
 def dbupdate_hits_in_off(band, ind):
